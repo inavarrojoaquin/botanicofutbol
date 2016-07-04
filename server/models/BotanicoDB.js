@@ -2,6 +2,27 @@ var pg = require('pg'),
 	util = require('util'),
 	fs = require('fs'),
 	path = require('path');
+ 
+function DaoFactory() {
+  this.connector = null;
+}
+
+DaoFactory.Connector = {
+  MySQL: 'MySQL',
+  JSON: 'JSON',
+  Postgre: 'Postgre'
+};
+
+DaoFactory.instance = null;
+
+DaoFactory.getInstance = function () {
+  if (!DaoFactory.instance) {
+    DaoFactory.instance = new DaoFactory();
+  }
+
+  return DaoFactory.instance;
+};
+
 
 function BotanicoDB(){
 	this.connString = require(path.join(__dirname, '../', '../', 'config'));
@@ -12,6 +33,20 @@ function BotanicoDB(){
 
 	this.tablesGenerator();
 }
+
+BotanicoDB.instance = null;
+
+/**
+ * Singleton getInstance definition
+ * @return singleton class
+ */
+BotanicoDB.getInstance = function(){
+    if(!BotanicoDB.instance){
+        BotanicoDB.instance = new BotanicoDB();
+    }
+    return BotanicoDB.instance;
+};
+
 /**
  * Get a valid connection from pool
  * handle error
@@ -90,9 +125,14 @@ BotanicoDB.prototype.postTournament = function (data, callback) {
 
 		console.log('Post Tournament...');
 		// SQL Query > Insert Data
-		bt.query("INSERT INTO bt_tournament(name) values($2)", [data.name], function (err) {
+		bt.query("INSERT INTO bt_tournament(name) values($1) RETURNING id, name", [data.name], function (err, result) {
+			if(err) {
+				done();
+				callback(err, []);
+				return;
+			}
 			done();
-			callback(err, data);
+			callback(err, result.rows[0]);
 		});
 	});
 };
@@ -167,9 +207,9 @@ BotanicoDB.prototype.postTeam = function (data, callback) {
 
 		console.log('Post Team...');
 		// SQL Query > Insert Data
-		bt.query("INSERT INTO bt_team(tournament_id,name) values($1, $2)", [data.tournament_id, data.name], function (err) {
+		bt.query("INSERT INTO bt_team(tournament_id,name) values($1, $2) RETURNING id, tournament_id, name", [data.tournament_id, data.name], function (err, result) {
 			done();
-			callback(err, data);
+			callback(err, result.rows[0]);
 		});
 	});
 };
@@ -244,9 +284,9 @@ BotanicoDB.prototype.postPlayer = function (data, callback) {
 
 		console.log('Post Player...');
 		// SQL Query > Insert Data
-		bt.query("INSERT INTO bt_player(team_id, name, email, birthday, observations) values($1, $2, $3, $4, $5)", [data.team_id, data.name, data.email, data.birthday, data.observations], function (err) {
+		bt.query("INSERT INTO bt_player(team_id, name, email, birthday, observations) values($1, $2, $3, $4, $5) RETURNING id, team_id, name", [data.team_id, data.name, data.email, data.birthday, data.observations], function (err, result) {
 			done();
-			callback(err, data);
+			callback(err, result.rows[0]);
 		});
 	});
 };

@@ -3,38 +3,43 @@ angular.module('botanicofutbol', [])
 .controller('mainController', function($scope, $http) {
 
     $scope.formData = {};
-    $scope.todoData = {};
+    $scope.tournamentData = {};
+    $scope.teamData = {};
+    $scope.playerData = {};
 
-     // Get all todos
-    $http.get('/torneo')
-        .success(function(data) {
-            $scope.todoData = data;
-            console.log(data);
-        })
-        .error(function(error) {
-            console.log('Error: ' + error);
-        });
+    getAllTournament();
 
-
-        // Crate a torneo
-    $scope.createTorneo = function() {
-        $http.post('/torneo', $scope.formData)
+    // Get all tournament
+    function getAllTournament() {
+        $http.get('/tournament')
             .success(function(data) {
-                $scope.formData = {};
-                $scope.todoData = data;
-                console.log("Create: " + data);
+                $scope.tournamentData = data;
+                console.log("Get all tournament success");
             })
             .error(function(data) {
                 console.log('Error: ' + data);
             });
     };
 
-    // Delete a todo
-    $scope.deleteTorneo = function(torneoID) {
-        $http.delete('/torneo/' + torneoID)
+    // Crate tournament
+    $scope.addTournament = function() {
+        $http.post('/tournament', $scope.formData)
             .success(function(data) {
-                $scope.todoData = data;
-                console.log("Delete: " + data);
+                $scope.tournamentData.push(data);
+                $scope.formData = {};                
+                console.log("Add tournament success");
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
+    // Delete tournament
+    $scope.deleteTournament = function(tournamentID, index) {
+        $http.delete('/tournament/' + tournamentID)
+            .success(function(data) {
+                $scope.tournamentData.splice(index, 1);
+                console.log("Delete tournament success ");
             })
             .error(function(data) {
                 console.log('Error: ' + data);

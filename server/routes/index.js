@@ -24,11 +24,11 @@ var auth = function (req, res, next) {
 
 router.get('/', function(req, res, next) {
     //res.sendFile(path.join(__dirname, '../', '../', 'client', 'views', 'index.html'));
-    res.render('index');
+    res.render('index', { title: 'BotanicoFutbol' });
 });
 
 router.get('/admin', auth, function(req, res, next) {
-    res.render('index_admin');
+    res.render('index_admin', { title: 'BotanicoFutbolAdmin' });
 });
 
 module.exports = router;

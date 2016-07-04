@@ -16,22 +16,22 @@
         <hr>
         <h1 class="lead">Node + Express + Angular + PostgreSQL</h1>
       </div>
-
+     
       <div class="todo-form">
         <form>
           <div class="form-group">
-            <input type="number" class="form-control input-lg" placeholder="Enter id..." ng-model="formData.id">
+            <p>Add tournament</p>
             <input type="text" class="form-control input-lg" placeholder="Enter name..." ng-model="formData.name">
           </div>
-          <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="createTournament()">Add Todo</button>
+          <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="addTournament()">Add</button>
         </form>
       </div>
 
       <br>
 
       <div class="todo-list">
-        <ul ng-repeat="todo in todoData">
-          <li><h3><input class="lead" type="checkbox" ng-click="deleteTournament(todo.id)">&nbsp;{{ todo.name }}</li></h3><hr>
+        <ul ng-repeat="tournament in tournamentData">
+          <li><h3><input class="lead" type="checkbox" ng-click="deleteTournament(tournament.id, $index)">&nbsp;{{ tournament.name }}</li></h3><hr>
         </ul>
       </div>
 

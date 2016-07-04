@@ -11,7 +11,7 @@ var bodyParser = require('body-parser');
  * registering handlers for POST PUT GET DELETE actions
  */
 var routes = require('./server/routes/index');
-var users = require('./server/routes/users');
+var tournament = require('./server/routes/tournament');
 
 var router = express.Router();
 
@@ -21,7 +21,7 @@ var app = express();
  * DataBase Configuration
  */
 var BotanicoDB = require('./server/models/BotanicoDB');
-var db = new BotanicoDB();
+BotanicoDB.getInstance();
     
 // view engine setup html
 //http://www.makebetterthings.com/node-js/how-to-use-html-with-express-node-js/
@@ -38,7 +38,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, './client', 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/tournament', tournament);
 
 app.use(router);
 

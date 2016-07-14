@@ -3,19 +3,21 @@ var path = require('path');
 var BotanicoDB = require('../models/BotanicoDB');
 var router = express.Router();
 
-/* GET tournament list. */
+/* GET team list. */
 router.get('/', function(req, res, next) {
-	BotanicoDB.getInstance().getAllTournaments(function(err, rows){
+	BotanicoDB.getInstance().getAllTeams(function(err, rows){
 		if (err) return console.log("Error Selecting : %s ", err);
     	res.send(rows);
 	});
 });
 
-/* POST tournament. */
+/* POST team. */
 router.post('/', function(req, res, next) {
 	var name = req.body.name;
+	var tournament_id = parseInt(req.body.tournament_id);
 
-	BotanicoDB.getInstance().postTournament({
+	BotanicoDB.getInstance().postTeam({
+		tournament_id: tournament_id,
 		name: name
 	}, function(err, data){
 		if (err) return console.log("Error Selecting : %s ", err);
@@ -23,11 +25,11 @@ router.post('/', function(req, res, next) {
 	});
 });
 
-/* DELETE tournament. */
+/* DELETE team. */
 router.delete('/:id', function(req, res, next) {
 	var id = req.params.id;
 
-	BotanicoDB.getInstance().deleteTournament({
+	BotanicoDB.getInstance().deleteTeam({
 		id: id
 	}, function(err, data){
 		if (err) return console.log("Error Selecting : %s ", err);

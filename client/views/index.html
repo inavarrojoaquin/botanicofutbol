@@ -12,27 +12,168 @@
     <div class="container">
 
       <div class="header">
-        <h1>Todo App</h1>
-        <hr>
-        <h1 class="lead">Node + Express + Angular + PostgreSQL</h1>
+        <h1 class="lead">BotanicoFutbol</h1>
+      </div>
+
+      <select ng-model="selectedItem" ng-options="item as item.name for item in tournamentData" ng-change="getFixtureByZoneId(selectedItem.id)">
+        <option value="">---Please select---</option> <!-- not selected / blank option -->
+      </select>
+
+      <div class="todo-form">
+        <form>
+          <div class="form-group">
+            <p>Fixture By Zone</p>
+            <table border="1">
+               <tr>
+                  <th>Id</th>
+                  <th>MatchId</th>
+                  <th>ZoneId</th>
+                  <th>Date</th>
+                  <th>Home_team_id</th>
+                  <th>Away_team_id</th>
+                  <th>Home_team_score</th>
+                  <th>Away_team_score</th>
+               </tr>
+               <tr ng-repeat="fixture in fixtureZoneData">
+                  <td align="center">#{{ fixture.id }}</td>
+                  <td align="center">{{ fixture.match_id }}</td>
+                  <td align="center">{{ fixture.zone_id }}</td>
+                  <td align="center">{{ fixture.date }}</td>
+                  <td align="center">{{ fixture.home_team_name }}</td>
+                  <td align="center">{{ fixture.away_team_name }}</td>
+                  <td align="center">{{ fixture.home_team_score }}</td>
+                  <td align="center">{{ fixture.away_team_score }}</td>
+               </tr>
+            </table>
+          </div>
+        </form>
       </div>
      
       <div class="todo-form">
         <form>
           <div class="form-group">
             <p>Add tournament</p>
-            <input type="text" class="form-control input-lg" placeholder="Enter name..." ng-model="formData.name">
+            <table border="1">
+               <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>&nbsp;</th>
+               </tr>
+               <tr ng-repeat = "tournament in tournamentData">
+                  <td align="center"> #{{tournament.id}} </td>
+                  <td align="center"> {{tournament.name}} </td>
+                  <td> <button class="btn" ng-click="deleteTournament(tournament.id)">Delete</button></td>
+               </tr>
+               <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="text" class="form-control" placeholder="Enter name..." ng-model="formTournament.name"></td>
+                  <td><button type="submit" class="btn btn-block" ng-click="addTournament()">Add</button></td>
+               </tr>
+            </table>
           </div>
-          <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="addTournament()">Add</button>
         </form>
       </div>
 
-      <br>
+      <div class="todo-form">
+        <form>
+          <div class="form-group">
+            <p>Add team</p>
+            <table border="1">
+               <tr>
+                  <th>Id</th>
+                  <th>TournamentId</th>
+                  <th>Name</th>
+                  <th>&nbsp;</th>
+               </tr>
+               <tr ng-repeat="team in teamData">
+                  <td align="center">#{{ team.id }}</td>
+                  <td align="center">#{{ team.tournament_id }}</td>
+                  <td align="center">{{ team.name }}</td>
+                  <td><button class="btn" ng-click="deleteTeam(team.id)">Delete</button></td>
+               </tr>
+               <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="number" class="form-control" placeholder="Enter tournamentID..." ng-model="formTeam.tournament_id"></td>
+                  <td><input type="text" class="form-control" placeholder="Enter name..." ng-model="formTeam.name"></td>
+                  <td><button type="submit" class="btn btn-block" ng-click="addTeam()">Add</button></td>
+               </tr>
+            </table>
+          </div>
+        </form>
+      </div>
 
-      <div class="todo-list">
-        <ul ng-repeat="tournament in tournamentData">
-          <li><h3><input class="lead" type="checkbox" ng-click="deleteTournament(tournament.id, $index)">&nbsp;{{ tournament.name }}</li></h3><hr>
-        </ul>
+      <div class="todo-form">
+        <form>
+          <div class="form-group">
+            <p>Add player</p>
+            <table border="1">
+               <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Birthday</th>
+                  <th>&nbsp;</th>
+               </tr>
+               <tr ng-repeat="player in playerData">
+                  <td align="center">#{{ player.id }}</td>
+                  <td align="center">{{ player.name }}</td>
+                  <td align="center">{{ player.email }}</td>
+                  <td align="center">{{ player.birthday }}</td>
+                  <td><button class="btn" ng-click="deletePlayer(player.id)">Delete</button></td>
+               </tr>
+               <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="text" class="form-control" placeholder="Enter name..." ng-model="formPlayer.name"></td>
+                  <td><input type="email" class="form-control" placeholder="Enter email..." ng-model="formPlayer.email"></td>
+                  <td><input type="date" class="form-control" placeholder="Enter birthday..." ng-model="formPlayer.birthday"></td>
+                  <td><button type="submit" class="btn btn-block" ng-click="addPlayer()">Add</button></td>
+               </tr>
+            </table>
+          </div>
+        </form>
+      </div>
+
+      <div class="todo-form">
+        <form>
+          <div class="form-group">
+            <p>Add Fixture</p>
+            <table border="1">
+               <tr>
+                  <th>Id</th>
+                  <th>MatchId</th>
+                  <th>ZoneId</th>
+                  <th>Date</th>
+                  <th>Home_team_id</th>
+                  <th>Away_team_id</th>
+                  <th>Home_team_score</th>
+                  <th>Away_team_score</th>
+                  <th>&nbsp;</th>
+               </tr>
+               <tr ng-repeat="fixture in fixtureData">
+                  <td align="center">#{{ fixture.id }}</td>
+                  <td align="center">{{ fixture.match_id }}</td>
+                  <td align="center">{{ fixture.zone_id }}</td>
+                  <td align="center">{{ fixture.date }}</td>
+                  <td align="center">{{ fixture.home_team_id }}</td>
+                  <td align="center">{{ fixture.away_team_id }}</td>
+                  <td align="center">{{ fixture.home_team_score }}</td>
+                  <td align="center">{{ fixture.away_team_score }}</td>
+                  <td><button class="btn" ng-click="deleteFixture(fixture.id,fixture.match_id)">Delete</button></td>
+               </tr>
+               <tr>
+                  <td><input type="number" class="form-control" placeholder="Enter name..." ng-model="formFixture.id"></td>
+                  <td><input type="number" class="form-control" placeholder="Enter email..." ng-model="formFixture.match_id"></td>
+                  <td><input type="number" class="form-control" placeholder="Enter birthday..." ng-model="formFixture.zone_id"></td>
+                  <td><input type="datetime" class="form-control" placeholder="Enter name..." ng-model="formFixture.date"></td>
+                  <td><input type="number" class="form-control" placeholder="Enter email..." ng-model="formFixture.home_team_id"></td>
+                  <td><input type="number" class="form-control" placeholder="Enter email..." ng-model="formFixture.away_team_id"></td>
+                  <td><input type="number" class="form-control" placeholder="Enter birthday..." ng-model="formFixture.home_team_score"></td>
+                  <td><input type="number" class="form-control" placeholder="Enter birthday..." ng-model="formFixture.away_team_score"></td>
+                  <td><button type="submit" class="btn btn-block" ng-click="addFixture()">Add</button></td>
+               </tr>
+            </table>
+          </div>
+        </form>
       </div>
 
     </div>

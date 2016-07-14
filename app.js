@@ -12,6 +12,9 @@ var bodyParser = require('body-parser');
  */
 var routes = require('./server/routes/index');
 var tournament = require('./server/routes/tournament');
+var team = require('./server/routes/team');
+var player = require('./server/routes/player');
+var fixture = require('./server/routes/fixture');
 
 var router = express.Router();
 
@@ -39,6 +42,9 @@ app.use(express.static(path.join(__dirname, './client', 'public')));
 
 app.use('/', routes);
 app.use('/tournament', tournament);
+app.use('/team', team);
+app.use('/player', player);
+app.use('/fixture', fixture);
 
 app.use(router);
 

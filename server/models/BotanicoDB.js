@@ -398,6 +398,88 @@ BotanicoDB.prototype.deleteZone = function (data, callback) {
 };
 
 /**
+ * Team-Zone Methods
+ */
+/* GET */
+BotanicoDB.prototype.getAllTeamZones = function (callback) {
+	this.GetConnection(function (err, bt, done) {
+		if (err) {
+			callback(err, []);
+			return;
+		}
+
+		console.log('Connected to postgres! Getting getAllTeamZones...');
+		bt
+			.query('SELECT * FROM bt_team_zone;')
+			.on("row", function (row, result) {
+				result.addRow(row);
+			})
+			.on('end', function (result) {
+				done();
+				callback(null, result.rows);
+			});
+	});
+};
+
+/* POST */
+BotanicoDB.prototype.postTeamZone = function (data, callback) {
+	// Get a Postgres client from the connection pool
+	this.GetConnection(function (err, bt, done) {
+		// Handle connection errors
+		if (err) {
+			callback(err, []);
+			return;
+		}
+
+		console.log('Post TeamZone...');
+		// SQL Query > Insert Data
+		bt.query("INSERT INTO bt_team_zone(zone_id, team_id) values($1,$2) RETURNING zone_id, team_id", [data.zone_id, data.team_id], function (err, result) {
+			if(err){
+				done();
+				callback(err, []);
+				return;
+			}
+			done();
+			callback(err, result.rows[0]);
+		});
+	});
+};
+
+/* PUT */
+BotanicoDB.prototype.putTeamZone = function (data, callback) {
+	// Get a Postgres client from the connection pool
+	this.GetConnection(function (err, bt, done) {
+		// Handle connection errors
+		if (err) {
+			callback(err, []);
+			return;
+		}
+		// SQL Query > Update Data
+		bt.query("UPDATE bt_team_zone SET zone_id=($1), team_id=($2) WHERE zone_id=($3) and team_id=($4)", [data.new_zone_id, data.new_team_id, data.old_zone_id, data.old_team_id], function (err) {
+			done();
+			callback(err, data);
+		});
+	});
+};
+
+/* DELETE */
+BotanicoDB.prototype.deleteTeamZone = function (data, callback) {
+	// Get a Postgres client from the connection pool
+	this.GetConnection(function (err, bt, done) {
+		// Handle connection errors
+		if (err) {
+			callback(err, []);
+			return;
+		}
+		// SQL Query > Delete Data
+		bt.query("DELETE FROM bt_team_zone WHERE zone_id=($1) and team_id=($2)", [data.zone_id, data.team_id], function (err) {
+			done();
+			callback(err, data);
+		});
+	});
+};
+
+/**
  * Fixture Methods
  */
 /* GET */
@@ -586,16 +668,16 @@ BotanicoDB.prototype.deleteGoalsScored = function (data, callback) {
  * Team-Position Methods
  */
 /* GET */
-BotanicoDB.prototype.getAllTeamsPosition = function (callback) {
+BotanicoDB.prototype.getTeamsPositionByZoneId = function (data, callback) {
 	this.GetConnection(function (err, bt, done) {
 		if (err) {
 			callback(err, []);
 			return;
 		}
 
-		console.log('Connected to postgres! Getting getAllTeamsPosition...');
+		console.log('Connected to postgres! Getting getTeamsPositionByZoneId...');
 		bt
-			.query('SELECT * FROM bt_team_position;')
+			.query('SELECT * FROM bt_team_position WHERE zone_id=($1)', [data.zone_id])
 			.on("row", function (row, result) {
 				result.addRow(row);
 			})

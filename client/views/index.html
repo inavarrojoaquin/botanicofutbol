@@ -15,8 +15,10 @@
         <h1 class="lead">BotanicoFutbol</h1>
       </div>
 
-      <select ng-model="selectedItem" ng-options="item as item.name for item in tournamentData" ng-change="getFixtureByZoneId(selectedItem.id)">
-        <option value="">---Please select---</option> <!-- not selected / blank option -->
+      <!-- Fixture Zone -->
+
+      <select ng-model="fixtureZoneItem" ng-options="item as item.name for item in zoneData" ng-change="getFixtureByZoneId(fixtureZoneItem.id)">
+        <option value="">---Select zone---</option> <!-- not selected / blank option -->
       </select>
 
       <div class="todo-form">
@@ -48,6 +50,50 @@
           </div>
         </form>
       </div>
+
+      <!-- Team Position -->
+
+      <select ng-model="teamPositionItem" ng-options="item as item.name for item in zoneData" ng-change="getTeamsPositionByZoneId(teamPositionItem.id)">
+        <option value="">---Select zone---</option> <!-- not selected / blank option -->
+      </select>
+
+      <div class="todo-form">
+        <form>
+          <div class="form-group">
+            <p>Team-Position By Zone</p>
+            <table border="1">
+               <tr>
+                  <th>zone_id</th>
+                  <th>position_id</th>
+                  <th>team_id</th>
+                  <th>pj</th>
+                  <th>pg</th>
+                  <th>pe</th>
+                  <th>pp</th>
+                  <th>gf</th>
+                  <th>gc</th>
+                  <th>dif</th>
+                  <th>pts</th>
+               </tr>
+               <tr ng-repeat="teamPosition in teamPositionData">
+                  <td align="center">#{{ teamPosition.zone_id }}</td>
+                  <td align="center">{{ teamPosition.position_id }}</td>
+                  <td align="center">{{ teamPosition.team_id }}</td>
+                  <td align="center">{{ teamPosition.pj }}</td>
+                  <td align="center">{{ teamPosition.pg }}</td>
+                  <td align="center">{{ teamPosition.pe }}</td>
+                  <td align="center">{{ teamPosition.pp }}</td>
+                  <td align="center">{{ teamPosition.gf }}</td>
+                  <td align="center">{{ teamPosition.gc }}</td>
+                  <td align="center">{{ teamPosition.dif }}</td>
+                  <td align="center">{{ teamPosition.pts }}</td>
+               </tr>
+            </table>
+          </div>
+        </form>
+      </div>
+
+      <!-- Tournaments -->
      
       <div class="todo-form">
         <form>
@@ -73,6 +119,8 @@
           </div>
         </form>
       </div>
+
+      <!-- Teams -->
 
       <div class="todo-form">
         <form>
@@ -101,6 +149,35 @@
           </div>
         </form>
       </div>
+
+      <!-- TeamZones -->
+
+      <div class="todo-form">
+        <form>
+          <div class="form-group">
+            <p>Add team-zone</p>
+            <table border="1">
+               <tr>
+                  <th>ZoneId</th>
+                  <th>TeamId</th>
+                  <th>&nbsp;</th>
+               </tr>
+               <tr ng-repeat="teamZone in teamZoneData">
+                  <td align="center">#{{ teamZone.zone_id }}</td>
+                  <td align="center">#{{ teamZone.team_id }}</td>
+                  <td><button class="btn" ng-click="deleteTeamZone(teamZone.zone_id, teamZone.team_id)">Delete</button></td>
+               </tr>
+               <tr>
+                  <td><input type="number" class="form-control" placeholder="Enter zoneID..." ng-model="formTeamZone.zone_id"></td>
+                  <td><input type="number" class="form-control" placeholder="Enter teamID..." ng-model="formTeamZone.team_id"></td>
+                  <td><button type="submit" class="btn btn-block" ng-click="addTeamZone()">Add</button></td>
+               </tr>
+            </table>
+          </div>
+        </form>
+      </div>
+
+      <!-- Players -->
 
       <div class="todo-form">
         <form>
@@ -132,6 +209,35 @@
           </div>
         </form>
       </div>
+
+      <!-- Zone -->
+
+      <div class="todo-form">
+        <form>
+          <div class="form-group">
+            <p>Add player</p>
+            <table border="1">
+               <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>&nbsp;</th>
+               </tr>
+               <tr ng-repeat="zone in zoneData">
+                  <td align="center">#{{ zone.id }}</td>
+                  <td align="center">{{ zone.name }}</td>
+                  <td><button class="btn" ng-click="deleteZone(zone.id)">Delete</button></td>
+               </tr>
+               <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="text" class="form-control" placeholder="Enter name..." ng-model="formZone.name"></td>
+                  <td><button type="submit" class="btn btn-block" ng-click="addZone()">Add</button></td>
+               </tr>
+            </table>
+          </div>
+        </form>
+      </div>
+
+      <!-- Fixture -->
 
       <div class="todo-form">
         <form>

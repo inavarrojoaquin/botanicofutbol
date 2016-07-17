@@ -14,7 +14,10 @@ var routes = require('./server/routes/index');
 var tournament = require('./server/routes/tournament');
 var team = require('./server/routes/team');
 var player = require('./server/routes/player');
+var zone = require('./server/routes/zone');
+var team_zone = require('./server/routes/team_zone');
 var fixture = require('./server/routes/fixture');
+var team_position = require('./server/routes/team_position');
 
 var router = express.Router();
 
@@ -44,7 +47,10 @@ app.use('/', routes);
 app.use('/tournament', tournament);
 app.use('/team', team);
 app.use('/player', player);
+app.use('/zone', zone);
+app.use('/team_zone', team_zone);
 app.use('/fixture', fixture);
+app.use('/team_position', team_position);
 
 app.use(router);
 

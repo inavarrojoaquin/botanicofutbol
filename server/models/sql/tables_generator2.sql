@@ -148,3 +148,9 @@ INSERT INTO bt_fixture(id,match_id,zone_id,date,home_team_id,away_team_id,home_t
 			(1,2,1,'04-12-1990 04:05:06',2,1,0,0),
 			(1,3,1,'04-12-1990 04:05:06',3,4,0,0),
 			(1,4,1,'04-12-1990 04:05:06',4,3,0,0);
+
+INSERT INTO bt_team_position(zone_id,position_id,team_id,pj,pg,pe,pp,gf,gc,dif,pts)
+	VALUES	(1,1,1,0,0,0,0,0,0,0,0),
+			(1,2,2,0,0,0,0,0,0,0,0),
+			(1,3,3,0,0,0,0,0,0,0,0),
+			(1,4,4,0,0,0,0,0,0,0,0);

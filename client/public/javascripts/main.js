@@ -1,16 +1,23 @@
 angular.module('botanicofutbol', [])
 
 .controller('mainController', function($scope, $http) {
-
+    //Forms
     $scope.formTournament = {};
     $scope.formTeam = {};
     $scope.formPlayer = {};
+    $scope.formZone = {};
+    $scope.formTeamZone = {};
     $scope.formFixture = {};
+    $scope.formTeamPosition = {};
+    //Datas
     $scope.tournamentData = {};
     $scope.teamData = {};
     $scope.playerData = {};
+    $scope.zoneData = {};
+    $scope.teamZoneData = {};
     $scope.fixtureData = {};
     $scope.fixtureZoneData = {};
+    $scope.teamPositionData = {};
 
     $scope.getFixtureByZoneId = function(zoneId) {
         $http.get('/fixture/' + zoneId)
@@ -30,6 +37,8 @@ angular.module('botanicofutbol', [])
     getAllTournament();
     getAllTeams();
     getAllPlayers();
+    getAllZones();
+    getAllTeamZones();
     getAllFixtures();
 
     // Get all tournament
@@ -155,6 +164,93 @@ angular.module('botanicofutbol', [])
     };
 
     /**
+    * Zones methods
+    */
+
+    // Get all
+    function getAllZones() {
+        $http.get('/zone')
+            .success(function(data) {
+                $scope.zoneData = data;
+                console.log("Get all Zones success");
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
+    // Crate
+    $scope.addZone = function() {
+        $http.post('/zone', $scope.formZone)
+            .success(function(data) {
+                $scope.zoneData.push(data);
+                $scope.formZone = {};                
+                console.log("Add zone success");
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
+    // Delete
+    $scope.deleteZone = function(zoneId) {
+        $http.delete('/zone/' + zoneId)
+            .success(function(data) {
+                var index = $scope.zoneData.indexOf(zoneId);
+                $scope.zoneData.splice(index, 1);
+                console.log("Delete zone success ");
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
+    /**
+    * Team-Zones methods
+    */
+
+    // Get all
+    function getAllTeamZones() {
+        $http.get('/team_zone')
+            .success(function(data) {
+                $scope.teamZoneData = data;
+                console.log("Get all Team-Zones success");
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
+    // Crate
+    $scope.addTeamZone = function() {
+        $http.post('/team_zone', $scope.formTeamZone)
+            .success(function(data) {
+                $scope.teamZoneData.push(data);
+                $scope.formTeamZone = {};                
+                console.log("Add team-zone success");
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
+   // Delete
+    $scope.deleteTeamZone = function(zoneId, teamId) {
+        $http.delete('/team_zone/' + zoneId + '/' + teamId)
+            .success(function(data) {
+                var objToDelete = $scope.teamZoneData.filter(function ( obj ) {
+                    return obj.id == zoneId && obj.match_id == teamId;
+                })[0];
+                var index = $scope.teamZoneData.indexOf(objToDelete);
+                $scope.teamZoneData.splice(index, 1);
+                console.log("Delete team-zone success ");
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
+    /**
     * Fixture methods
     */
 
@@ -175,7 +271,7 @@ angular.module('botanicofutbol', [])
         $http.post('/fixture', $scope.formFixture)
             .success(function(data) {
                 $scope.fixtureData.push(data);
-                $scope.formfixture = {};                
+                $scope.formFixture = {};                
                 console.log("Add fixture success");
             })
             .error(function(data) {
@@ -188,11 +284,57 @@ angular.module('botanicofutbol', [])
         $http.delete('/fixture/' + fixtureId + '/' + matchId)
             .success(function(data) {
                 var objToDelete = $scope.fixtureData.filter(function ( obj ) {
-                    return objToDelete.id == fixtureId && objToDelete.match_id == matchId;
+                    return obj.id == fixtureId && obj.match_id == matchId;
                 })[0];
                 var index = $scope.fixtureData.indexOf(objToDelete);
                 $scope.fixtureData.splice(index, 1);
                 console.log("Delete fixture success ");
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
+    /**
+    * Team-Position methods
+    */
+
+    // Get
+    $scope.getTeamsPositionByZoneId = function(zoneId) {
+        $http.get('/team_position/' + zoneId)
+            .success(function(data) {
+                $scope.teamPositionData = data;
+                console.log("Get TeamPosition by zoneId success");
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+        });
+    };
+
+
+    // Crate
+    $scope.addTeamPosition = function() {
+        $http.post('/team_position', $scope.formTeamPosition)
+            .success(function(data) {
+                $scope.teamPositionData.push(data);
+                $scope.formTeamPosition = {};                
+                console.log("Add TeamPosition success");
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
+    // Delete
+    $scope.deleteTeamPosition = function(zoneId, teamPositionId) {
+        $http.delete('/team_position/' + zoneId + '/' + teamPositionId)
+            .success(function(data) {
+                var objToDelete = $scope.fixtureData.filter(function ( obj ) {
+                    return obj.id == zoneId && obj.match_id == teamPositionId;
+                })[0];
+                var index = $scope.teamPositionData.indexOf(objToDelete);
+                $scope.teamPositionData.splice(index, 1);
+                console.log("Delete TeamPosition success ");
             })
             .error(function(data) {
                 console.log('Error: ' + data);

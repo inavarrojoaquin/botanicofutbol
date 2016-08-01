@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 <html ng-app="botanicofutbol">
   <head>
-    <title>ADMIN</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- styles -->
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="stylesheets/style.css" rel="stylesheet" media="screen">
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="stylesheets/style.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="stylesheets/img/icono.png" />
+    
+    <title>Torneo del Botanico</title>
+
   </head>
-  <body ng-controller="mainController">
-
+  <body ng-controller="presentationController" class="foto">
+    <!-- Page Content -->
     <div class="container">
-
-      <div class="header">
-        <h1>ADMIN</h1>
-        <hr>
-        <h1 class="lead">Node + Express + Angular + PostgreSQL</h1>
-      </div>
-
-      <div class="todo-form">
-        <form>
-          <div class="form-group">
-          <input type="number" class="form-control input-lg" placeholder="Enter id..." ng-model="formData.id">
-            <input type="text" class="form-control input-lg" placeholder="Enter name..." ng-model="formData.name">
+      <!-- Team Members Row -->
+      <div class="row" >
+        <div class="col-md-3 col-xs-12">
+          <div class="todo-form">
+            <form>
+              <button type="submit" ng-click="setTournamentId(1)"><img class="zoom img-rectangle center-block" src="img/torneo_11.png" alt="Torneo Botanico"></button>
+            </form>
           </div>
-          <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="createTournament()">Add Todo</button>
-        </form>
-      </div>
+          
+        </div>
 
-      <br>
-
-      <div class="todo-list">
-        <ul ng-repeat="todo in todoData">
-          <li><h3><input class="lead" type="checkbox" ng-click="deleteTournament(todo.id)">&nbsp;{{ todo.name }}</li></h3><hr>
-        </ul>
+        <div class="col-md-3 col-md-offset-6 col-xs-12">
+          <div class="todo-form">
+              <form>
+                <button type="submit" ng-click="setTournamentId(2)"><img class="zoom img-rectangle center-block" src="img/torneo_22.png" alt="Zona-norte"></button>
+              </form>
+            </div>
+        </div>
       </div>
 
     </div>
 
     <!-- scripts -->
-    <script src="http://code.jquery.com/jquery-1.11.2.min.js" type="text/javascript"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="javascripts/jquery.js"></script>
+    <script src="javascripts/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.12/angular.min.js"></script>
-    <script src="javascripts/main.js"></script>
+    <script src="javascripts/presentation.js"></script>
   </body>
 </html>

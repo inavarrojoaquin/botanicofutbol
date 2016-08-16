@@ -1,7 +1,8 @@
 angular.module('botanicofutbol', [])
 
-.controller('mainController', function($scope, $http) {
-    //Forms
+
+.controller('mainController', ["RestClient","$scope","$http", function(RestClient, $scope, $http) {
+  //Forms
     $scope.formTournament = {};
     $scope.formTeam = {};
     $scope.formPlayer = {};
@@ -18,6 +19,10 @@ angular.module('botanicofutbol', [])
     $scope.fixtureData = {};
     $scope.fixtureZoneData = {};
     $scope.teamPositionData = {};
+
+    RestClient.query(function (data) {
+        $scope.zoneDAta = data;
+    });
 
     $scope.getFixtureByZoneId = function(zoneId) {
         $http.get('/fixture/' + zoneId)
@@ -299,6 +304,8 @@ angular.module('botanicofutbol', [])
     * Team-Position methods
     */
 
+    //seria necesario una tabla de posiciones en general
+
     // Get
     $scope.getTeamsPositionByZoneId = function(zoneId) {
         $http.get('/team_position/' + zoneId)
@@ -342,4 +349,10 @@ angular.module('botanicofutbol', [])
     };
 
 
-});
+}]);
+
+.factory('RestClient', ['$resource', function ($resource) {
+        return $resource('/zone', {
+            id: '@_id'
+        }, {});
+}]);

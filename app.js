@@ -11,6 +11,7 @@ var bodyParser = require('body-parser');
  * registering handlers for POST PUT GET DELETE actions
  */
 var routes = require('./server/routes/index');
+var views = require('./server/routes/views');
 var tournament = require('./server/routes/tournament');
 var team = require('./server/routes/team');
 var player = require('./server/routes/player');
@@ -44,6 +45,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, './client', 'public')));
 
 app.use('/', routes);
+app.use('/views', views);
 app.use('/tournament', tournament);
 app.use('/team', team);
 app.use('/player', player);

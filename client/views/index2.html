@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html ng-app="botanicofutbol">
+  <head>
+    <title>Torneo del botanico-Admin</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- styles -->
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="stylesheets/main.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="img/icono.png" />
+
+  </head>
+  <body ng-controller="mainController">
+
+    <header class="navbar navbar-inverse navbar-fixed-top" role="banner">
+        
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/"><img src="img/logo_home.png" alt="Home"></a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="/">Home</a></li>
+                    <li><a href="views/positions" >Positions</a></li>
+					<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" href="#">Fixture <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="zone in zoneData"><a href="javascript:void(0);" ng-click="getFixtureByZoneId(zone.id)">{{zone.name}}</a></li>     
+                        </ul>
+                    </li>					
+                    <li><a href="playoffs.php">Playoffs</a></li>
+                    <li><a href="goleadores.php">Goleadores</a></li>   
+                    <li><a href="fotos.php">Fotos</a></li> 
+                    <li><a href="canchas.php">Canchas</a></li>
+					<li><a href="..\Zona_Norte\index.php" color="red"><u><strong><big>Zona Norte</big><u></strong></a></li>
+                </ul>
+            </div>
+    </header><!--/header-->
+   
+    <div id="result"></div>
+  	
+ 	
+  	<!-- scripts -->
+  	<script src="javascripts/jquery.js"></script>
+  	<script src="javascripts/bootstrap.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.12/angular.min.js"></script>
+  	<script src="javascripts/main.js"></script>
+  
+
+    <script>
+
+    /*
+  		$(".nav li").on('click', function(){
+  			var href = $(this).find('a').attr("href");
+  			event.preventDefault(); //evita que se ejecute el href del link, por lo tanto no te redirecciona
+  			$('#result').load(href);      
+  		});
+  	*/
+  	</script>
+  </body>
+ </html>

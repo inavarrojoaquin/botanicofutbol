@@ -24,7 +24,7 @@ var auth = function (req, res, next) {
 
 router.get('/', function(req, res, next) {
     //res.sendFile(path.join(__dirname, '../', '../', 'client', 'views', 'index.html'));
-    res.render('index', { title: 'BotanicoFutbol' });
+    res.render('index2', { title: 'BotanicoFutbol' });
 });
 
 router.get('/admin', auth, function(req, res, next) {
